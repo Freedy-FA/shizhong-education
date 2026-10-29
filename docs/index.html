@@ -63,7 +63,7 @@
     mask-image:radial-gradient(120% 90% at 30% 20%,#000 0%,transparent 72%)}
   .hero-grid{position:relative;display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center}
   .hero h1{font-family:var(--serif);font-size:58px;line-height:1.26;font-weight:700}
-  .hero h1 .rot{display:inline-block;color:var(--accent);transition:opacity .35s ease}
+  .hero h1 .rot{display:inline-block;color:var(--accent);transition:opacity .35s ease;text-wrap:balance}
   .hero .lead{margin:26px 0 32px;font-size:18px;color:#4a5663;max-width:540px}
   .hero-cta{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .hero-cta .note{font-size:13px;color:var(--muted)}
@@ -679,7 +679,7 @@
           <img src="logo.png" alt="时中教育校徽" onerror="this.style.display='none'">
         </div>
         <div>
-          <h5>时中教育 SHIZHONG EDUCATION</h5>
+          <h5>时中教育<br>SHIZHONG EDUCATION</h5>
           <p>"君子而时中"——把握时机，恰到好处。<br>专注 K12 晚间辅导 9 年，让晚上的时间真正属于学习。</p>
         </div>
       </div>
@@ -711,7 +711,7 @@
 <script>
 (function(){
   /* 标题轮播 */
-  var phrases=["变成成绩的转折点。","让作业不再拖到十点半。","有人答疑，有人管进度。","把错题，变成下次的得分点。","家长省心，孩子有收获。"];
+  var phrases=["变成成绩提升的转折点。","让作业不再拖到十点半。","有人答疑，有人管进度。","把错题，变成下次的得分点。","家长省心，孩子有收获。"];
   var rot=document.getElementById("rotLine"), pi=0;
   setInterval(function(){
     rot.style.opacity=0;
