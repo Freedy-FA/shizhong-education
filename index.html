@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>时中教育｜K12 晚间辅导 · 作业辅导 · 同步提分</title>
+<style>
+  :root{
+    --paper:#F6F1E8; --card:#FFFCF7; --ink:#1F2A35; --muted:#6B7683;
+    --rule:#E4DCCB; --accent:#1E3A78; --accent-dark:#16295C;
+    --red:#D9432B; --red-soft:#F7E4DE; --blue-soft:#E4EAF4;
+    --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;
+    --sans:"PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.75;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .container{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  /* ---------- 校徽 ---------- */
+  .logo-mark{position:relative;display:inline-block;flex:none;line-height:0}
+  .logo-mark svg{display:block;width:100%;height:100%;border-radius:50%}
+  .logo-mark img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;border-radius:50%}
+
+  /* ---------- 通用 ---------- */
+  .eyebrow{font-size:12px;letter-spacing:.28em;color:var(--accent);font-weight:700;text-transform:uppercase}
+  .sec-head{position:relative;padding-left:22px;margin-bottom:48px}
+  .sec-head::before{content:"";position:absolute;left:0;top:6px;width:4px;height:calc(100% - 12px);background:var(--red)}
+  .sec-head h2{font-family:var(--serif);font-size:40px;font-weight:700;line-height:1.35;margin:10px 0 12px}
+  .sec-head p{color:var(--muted);font-size:17px;max-width:660px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans);
+       font-size:15px;font-weight:600;padding:13px 28px;border-radius:999px;border:1px solid transparent;
+       cursor:pointer;transition:.25s;line-height:1}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-dark);transform:translateY(-2px)}
+  .btn-ghost{border-color:var(--accent);color:var(--accent);background:transparent}
+  .btn-ghost:hover{background:rgba(30,58,120,.08)}
+  .btn-light{background:#fff;color:var(--accent)}
+  .btn-light:hover{transform:translateY(-2px)}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- 导航 ---------- */
+  .nav{position:sticky;top:0;z-index:50;background:rgba(246,241,232,.93);backdrop-filter:blur(10px);border-bottom:1px solid var(--rule)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:78px}
+  .brand{display:flex;align-items:center;gap:13px}
+  .brand .logo-mark{width:48px;height:48px}
+  .brand .bn{font-family:var(--serif);font-size:21px;font-weight:700;line-height:1.25}
+  .brand .bn span{display:block;font-family:var(--sans);font-size:9px;letter-spacing:.22em;color:var(--muted);font-weight:500}
+  .nav-links{display:flex;gap:32px;font-size:15px;font-weight:500}
+  .nav-links a{position:relative;padding:4px 0}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--red);transition:.3s}
+  .nav-links a:hover::after{width:100%}
+
+  /* ---------- Hero ---------- */
+  .hero{position:relative;overflow:hidden;padding:88px 0 76px}
+  .hero-bg{position:absolute;inset:0;opacity:.5;pointer-events:none;
+    background-image:linear-gradient(rgba(30,58,120,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(30,58,120,.07) 1px,transparent 1px);
+    background-size:34px 34px;
+    -webkit-mask-image:radial-gradient(120% 90% at 30% 20%,#000 0%,transparent 72%);
+    mask-image:radial-gradient(120% 90% at 30% 20%,#000 0%,transparent 72%)}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.08fr .92fr;gap:56px;align-items:center}
+  .hero h1{font-family:var(--serif);font-size:58px;line-height:1.26;font-weight:700}
+  .hero h1 .rot{display:inline-block;color:var(--accent);transition:opacity .35s ease}
+  .hero .lead{margin:26px 0 32px;font-size:18px;color:#4a5663;max-width:540px}
+  .hero-cta{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .hero-cta .note{font-size:13px;color:var(--muted)}
+  .hero-stats{display:grid;grid-template-columns:repeat(4,auto);gap:38px;margin-top:52px;padding-top:32px;border-top:1px solid var(--rule)}
+  .stat .num{font-family:var(--serif);font-size:33px;font-weight:700;line-height:1}
+  .stat .lab{font-size:13px;color:var(--muted);margin-top:8px;letter-spacing:.04em}
+  .hero-media{position:relative}
+  .hero-frame{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;
+    background:linear-gradient(155deg,#E8DFCE 0%,#F6F1E8 45%,#DCE2EC 100%);box-shadow:0 30px 60px -30px rgba(31,42,53,.38)}
+  .hero-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s ease}
+  .hero-frame img.on{opacity:1}
+  .hero-frame .night{position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,58,120,.2),transparent 45%)}
+  .float-card{position:absolute;background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 19px;box-shadow:0 20px 40px -20px rgba(31,42,53,.32)}
+  .fc-1{left:-30px;top:52px}
+  .fc-2{right:-16px;bottom:44px}
+  .float-card .k{font-family:var(--serif);font-size:25px;font-weight:700;color:var(--accent);line-height:1.15;transition:opacity .3s}
+  .float-card .v{font-size:12px;color:var(--muted);margin-top:5px;transition:opacity .3s}
+  .pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-right:6px;
+         box-shadow:0 0 0 0 rgba(217,67,43,.55);animation:pulse 2.2s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(217,67,43,0)}100%{box-shadow:0 0 0 0 rgba(217,67,43,0)}}
+  .hero-seal{position:absolute;right:-70px;bottom:-70px;width:280px;height:280px;opacity:.07;pointer-events:none}
+
+  /* ---------- 价值条 ---------- */
+  .valuebar{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);background:rgba(255,252,247,.55)}
+  .valuebar .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;padding:34px 0}
+  .vitem{display:flex;gap:13px;align-items:flex-start}
+  .vitem .dot{width:9px;height:9px;border-radius:50%;background:var(--red);margin-top:11px;flex:none}
+  .vitem h4{font-family:var(--serif);font-size:17px;font-weight:700}
+  .vitem p{font-size:13.5px;color:var(--muted);line-height:1.7}
+
+  section{padding:96px 0}
+
+  /* ---------- 课程 ---------- */
+  .course-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .course{background:var(--card);border:1px solid var(--rule);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:.35s}
+  .course:hover{transform:translateY(-6px);box-shadow:0 28px 50px -28px rgba(31,42,53,.36)}
+  .course .thumb{height:200px;position:relative;background:linear-gradient(150deg,#E8DFCE,#DCE2EC)}
+  .course .thumb img{width:100%;height:100%;object-fit:cover}
+  .course .thumb .badge{position:absolute;left:16px;top:16px;background:rgba(255,252,247,.94);color:var(--accent);
+    font-size:11.5px;font-weight:700;letter-spacing:.08em;padding:6px 12px;border-radius:999px}
+  .course .body{padding:26px 24px 28px;display:flex;flex-direction:column;flex:1}
+  .course .tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .tag{font-size:11.5px;letter-spacing:.06em;padding:5px 11px;border-radius:999px;background:var(--blue-soft);color:var(--accent);font-weight:600}
+  .tag.hot{background:var(--red-soft);color:var(--red)}
+  .course h3{font-family:var(--serif);font-size:22px;font-weight:700;margin-bottom:10px}
+  .course .desc{font-size:14.5px;color:var(--muted);flex:1}
+  .course .price{display:flex;align-items:baseline;gap:10px;margin:20px 0 6px}
+  .course .price b{font-family:var(--serif);font-size:30px;color:var(--accent)}
+  .course .price s{font-size:13px;color:#9aa2ad}
+  .course .price em{font-style:normal;font-size:12.5px;color:var(--muted)}
+  .course .go{margin-top:16px;font-size:14px;font-weight:600;color:var(--accent);display:flex;align-items:center;gap:6px}
+
+  /* ---------- 对比 ---------- */
+  .table-wrap{background:var(--card);border:1px solid var(--rule);border-radius:16px;overflow:hidden}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:20px 26px;text-align:left;font-size:15px;border-bottom:1px solid var(--rule)}
+  thead th{font-family:var(--serif);font-size:18px;font-weight:700;background:rgba(228,220,203,.4)}
+  thead th:nth-child(2),tbody td:nth-child(2){background:rgba(30,58,120,.05)}
+  th:first-child,td:first-child{color:var(--muted);font-size:13.5px;letter-spacing:.05em;width:21%}
+  td:nth-child(2){color:var(--accent);font-weight:600}
+  td:nth-child(3){color:var(--muted)}
+  tbody tr:last-child td{border-bottom:none}
+
+  /* ---------- 师资 ---------- */
+  .teacher-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+  .teacher .avatar{aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:linear-gradient(150deg,#E8DFCE,#DCE2EC);margin-bottom:20px}
+  .teacher .avatar img{width:100%;height:100%;object-fit:cover}
+  .teacher h3{font-family:var(--serif);font-size:22px;font-weight:700}
+  .teacher .role{font-size:12.5px;letter-spacing:.12em;color:var(--red);margin:8px 0 12px;font-weight:700}
+  .teacher .bio{font-size:14.5px;color:var(--muted)}
+  .teacher .tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+
+  /* ---------- 教学法 + 时刻表 ---------- */
+  .method{background:linear-gradient(180deg,rgba(255,252,247,.7),rgba(255,252,247,0))}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;margin-bottom:64px}
+  .step .no{font-family:var(--serif);font-size:58px;font-weight:700;color:#DCD2BF;line-height:1}
+  .step h4{font-family:var(--serif);font-size:19px;font-weight:700;margin:12px 0 10px}
+  .step p{font-size:14.5px;color:var(--muted)}
+
+  .schedule{background:var(--card);border:1px solid var(--rule);border-radius:18px;padding:44px 46px}
+  .schedule-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:34px}
+  .schedule-head h3{font-family:var(--serif);font-size:27px;font-weight:700}
+  .schedule-head p{color:var(--muted);font-size:15px;margin-top:8px}
+  .live{font-size:12.5px;color:var(--red);font-weight:700;letter-spacing:.08em;white-space:nowrap}
+  .timeline{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:18px}
+  .timeline::before{content:"";position:absolute;left:6px;right:6px;top:9px;height:2px;background:var(--rule)}
+  .tl{position:relative;padding-top:30px}
+  .tl::before{content:"";position:absolute;left:0;top:3px;width:13px;height:13px;border-radius:50%;
+    background:var(--card);border:3px solid var(--accent)}
+  .tl.hot::before{border-color:var(--red);background:var(--red)}
+  .tl .time{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--accent)}
+  .tl h4{font-family:var(--serif);font-size:16px;font-weight:700;margin:7px 0 6px}
+  .tl p{font-size:12.8px;color:var(--muted);line-height:1.7}
+
+  /* ---------- 反馈 ---------- */
+  .quotes{overflow:hidden}
+  .track{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+  .slide{min-width:100%;padding:0 4px}
+  .quote{background:var(--card);border:1px solid var(--rule);border-radius:18px;padding:46px 52px}
+  .quote .mark{font-family:var(--serif);font-size:70px;line-height:.6;color:#DCD2BF}
+  .quote .text{font-family:var(--serif);font-size:22px;line-height:1.88;margin:18px 0 26px}
+  .quote .who{display:flex;align-items:center;gap:14px}
+  .quote .ava{width:44px;height:44px;border-radius:50%;background:var(--blue-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:700}
+  .quote .who b{font-size:15px}
+  .quote .who span{display:block;font-size:12.5px;color:var(--muted);font-weight:400}
+  .slider-ctl{display:flex;align-items:center;gap:16px;margin-top:28px}
+  .arrow{width:44px;height:44px;border-radius:50%;border:1px solid var(--rule);background:var(--card);
+    cursor:pointer;font-size:16px;transition:.25s;color:var(--ink)}
+  .arrow:hover{border-color:var(--accent);color:var(--accent)}
+  .dots{display:flex;gap:8px;margin-left:6px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--rule);cursor:pointer;transition:.25s}
+  .dot.on{background:var(--accent);width:22px;border-radius:999px}
+
+  /* ---------- 学段推荐 ---------- */
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:34px}
+  .tab{padding:11px 22px;border-radius:999px;border:1px solid var(--rule);background:transparent;
+    font-family:var(--sans);font-size:14.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:.25s}
+  .tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .panel{display:none;animation:fade .5s ease}
+  .panel.on{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .panel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .pcard{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:28px}
+  .pcard .lv{font-size:11.5px;letter-spacing:.16em;color:var(--red);font-weight:700}
+  .pcard h4{font-family:var(--serif);font-size:20px;font-weight:700;margin:10px 0}
+  .pcard p{font-size:14px;color:var(--muted)}
+  .pcard ul{margin-top:14px;padding-left:18px;font-size:13.5px;color:var(--muted)}
+  .pcard li{margin-bottom:5px}
+
+  /* ---------- FAQ ---------- */
+  .faq{max-width:900px;margin:0 auto}
+  .q{border-bottom:1px solid var(--rule)}
+  .q button{width:100%;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;
+    align-items:center;gap:20px;padding:24px 6px;font-family:var(--serif);font-size:19px;font-weight:700;
+    color:var(--ink);text-align:left;line-height:1.6}
+  .q .sign{width:26px;height:26px;flex:none;border-radius:50%;border:1px solid var(--rule);
+    display:flex;align-items:center;justify-content:center;color:var(--accent);transition:.3s}
+  .q.open .sign{background:var(--red);border-color:var(--red);color:#fff;transform:rotate(45deg)}
+  .a{max-height:0;overflow:hidden;transition:max-height .45s ease}
+  .a p{padding:0 6px 26px;color:var(--muted);font-size:15.5px;max-width:800px}
+
+  /* ---------- CTA ---------- */
+  .cta{background:var(--accent);color:#fff;position:relative;overflow:hidden}
+  .cta .inner{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding:86px 0;position:relative;z-index:1}
+  .cta h2{font-family:var(--serif);font-size:43px;line-height:1.36;font-weight:700}
+  .cta p{margin:20px 0 0;font-size:17px;opacity:.92}
+  .cta .points{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px}
+  .cta .points span{font-size:13px;padding:8px 15px;border-radius:999px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24)}
+  .cta form{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);border-radius:18px;padding:32px}
+  .cta label{display:block;font-size:12.5px;letter-spacing:.11em;opacity:.85;margin:0 0 8px}
+  .cta input,.cta select{width:100%;padding:13px 15px;border-radius:10px;border:1px solid rgba(255,255,255,.3);
+    background:rgba(255,255,255,.95);font-family:var(--sans);font-size:15px;margin-bottom:18px;color:var(--ink)}
+  .cta .fine{font-size:12px;opacity:.8;margin-top:14px;text-align:center}
+  .cta-seal{position:absolute;right:-90px;top:-90px;width:380px;height:380px;opacity:.1;pointer-events:none}
+
+  /* ---------- 页脚 ---------- */
+  footer{background:var(--ink);color:#cdd5dd;padding:72px 0 32px}
+  .f-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:44px;border-bottom:1px solid rgba(255,255,255,.12)}
+  .f-brand{display:flex;gap:16px;align-items:flex-start}
+  .f-brand .logo-mark{width:64px;height:64px}
+  footer h5{font-family:var(--serif);color:#fff;font-size:17px;margin-bottom:18px;font-weight:700}
+  footer a{display:block;font-size:14px;margin-bottom:11px;opacity:.82;transition:.2s}
+  footer a:hover{opacity:1;color:#fff}
+  footer p{font-size:14px;opacity:.78;line-height:1.9}
+  .f-bottom{padding-top:26px;font-size:12.5px;opacity:.6;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  /* ---------- 吸底 ---------- */
+  .sticky-cta{position:fixed;left:0;right:0;bottom:0;z-index:60;display:none;gap:12px;padding:12px 16px;
+    background:rgba(246,241,232,.96);border-top:1px solid var(--rule);transform:translateY(110%);transition:.35s}
+  .sticky-cta.show{transform:none}
+  .sticky-cta .btn{flex:1}
+
+  /* ---------- 响应式 ---------- */
+  @media(max-width:1024px){
+    .hero h1{font-size:45px}.hero-grid{grid-template-columns:1fr;gap:56px}
+    .course-grid,.teacher-grid,.panel-grid{grid-template-columns:repeat(2,1fr)}
+    .steps{grid-template-columns:repeat(2,1fr)}
+    .timeline{grid-template-columns:repeat(2,1fr);gap:26px}
+    .timeline::before{display:none}
+    .f-grid{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:768px){
+    .nav-links{display:none}
+    section{padding:64px 0}
+    .hero{padding:56px 0 48px}.hero h1{font-size:34px}
+    .hero-stats{grid-template-columns:repeat(2,1fr);gap:24px}
+    .valuebar .grid{grid-template-columns:1fr 1fr;gap:22px}
+    .course-grid,.teacher-grid,.panel-grid,.timeline{grid-template-columns:1fr}
+    .sec-head h2{font-size:28px}
+    .quote{padding:30px 24px}.quote .text{font-size:18.5px}
+    .schedule{padding:30px 22px}
+    .cta .inner{grid-template-columns:1fr;padding:60px 0}.cta h2{font-size:29px}
+    .f-grid{grid-template-columns:1fr}
+    .float-card{display:none}
+    .sticky-cta{display:flex}
+    body{padding-bottom:74px}
+    th,td{padding:15px 13px;font-size:13.5px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 校徽 SVG（真图 logo.png 存在时自动替换） ============ -->
+<svg style="display:none">
+  <defs>
+    <g id="shizhongLogo">
+      <defs>
+        <path id="aTop" d="M21,100 A79,79 0 0 1 179,100"/>
+        <path id="aBot" d="M7,100 A93,93 0 0 0 193,100"/>
+      </defs>
+      <circle cx="100" cy="100" r="99" fill="#1E3A78"/>
+      <circle cx="100" cy="100" r="77" fill="#FFFFFF"/>
+      <circle cx="100" cy="100" r="74.5" fill="none" stroke="#1E3A78" stroke-width="1"/>
+      <circle cx="100" cy="100" r="69" fill="none" stroke="#1E3A78" stroke-width="6.5" stroke-dasharray="1.6 5.4"/>
+      <text fill="#FFFFFF" font-family="Songti SC,SimSun,serif" font-size="21" font-weight="700" letter-spacing="9">
+        <textPath href="#aTop" startOffset="50%" text-anchor="middle">时中教育</textPath>
+      </text>
+      <text fill="#FFFFFF" font-family="Georgia,serif" font-size="12.5" letter-spacing="3.6">
+        <textPath href="#aBot" startOffset="50%" text-anchor="middle">SHIZHONG EDUCATION</textPath>
+      </text>
+      <text x="11" y="101" fill="#FFFFFF" font-size="15" text-anchor="middle" dominant-baseline="middle">★</text>
+      <text x="189" y="101" fill="#FFFFFF" font-size="15" text-anchor="middle" dominant-baseline="middle">★</text>
+      <g fill="#1E3A78" font-family="Songti SC,SimSun,serif" font-size="9" text-anchor="middle">
+        <text transform="rotate(0 100 100)" x="100" y="52">大</text>
+        <text transform="rotate(30 100 100)" x="100" y="52">语</text>
+        <text transform="rotate(60 100 100)" x="100" y="52">时</text>
+        <text transform="rotate(90 100 100)" x="100" y="52">中</text>
+        <text transform="rotate(120 100 100)" x="100" y="52">果</text>
+        <text transform="rotate(150 100 100)" x="100" y="52">行</text>
+        <text transform="rotate(180 100 100)" x="100" y="52">育</text>
+        <text transform="rotate(210 100 100)" x="100" y="52">德</text>
+        <text transform="rotate(240 100 100)" x="100" y="52">养</text>
+        <text transform="rotate(270 100 100)" x="100" y="52">正</text>
+        <text transform="rotate(300 100 100)" x="100" y="52">明</text>
+        <text transform="rotate(330 100 100)" x="100" y="52">蒙</text>
+      </g>
+      <!-- 中心图形：飞鸟 / 书本 -->
+      <path d="M66 104 C86 80 122 77 138 90 C116 86 94 94 80 112 Z" fill="#1E3A78"/>
+      <circle cx="131" cy="86" r="5" fill="#1E3A78"/>
+      <path d="M70 116 C92 104 118 102 138 110" stroke="#1E3A78" stroke-width="3.6" fill="none" stroke-linecap="round"/>
+      <circle cx="100" cy="112" r="3.6" fill="#D9432B"/>
+      <path d="M66 126 L97 117 L97 139 L66 147 Z" fill="#D9432B"/>
+      <path d="M134 126 L103 117 L103 139 L134 147 Z" fill="#D9432B"/>
+      <g stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round">
+        <path d="M72 128 L91 123"/><path d="M72 133 L91 128"/><path d="M72 138 L91 133"/>
+        <path d="M109 123 L128 128"/><path d="M109 128 L128 133"/><path d="M109 133 L128 138"/>
+      </g>
+    </g>
+  </defs>
+</svg>
+
+<!-- 导航 -->
+<header class="nav">
+  <div class="container nav-inner">
+    <a class="brand" href="#">
+      <div class="logo-mark">
+        <svg viewBox="0 0 200 200"><use href="#shizhongLogo"/></svg>
+        <img src="logo.png" alt="时中教育校徽" onerror="this.style.display='none'">
+      </div>
+      <div class="bn">时中教育<span>SHIZHONG EDUCATION</span></div>
+    </a>
+    <nav class="nav-links">
+      <a href="#courses">课程体系</a>
+      <a href="#teachers">师资团队</a>
+      <a href="#method">教学方法</a>
+      <a href="#schedule">晚间安排</a>
+      <a href="#faq">常见问题</a>
+    </nav>
+    <a class="btn btn-ghost" href="#trial">预约免费测评</a>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">K12 晚间辅导 · 作业辅导 · 同步提分</p>
+      <h1>把晚上的三小时，<br><em class="rot" id="rotLine">变成成绩的转折点。</em></h1>
+      <p class="lead">17:30 接到校区，21:00 作业清零、错题归档、安全离校。九年晚辅导经验，老师全程在场，家长省心，孩子有收获。</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#trial">免费预约学习测评 →</a>
+        <a class="btn btn-ghost" href="#schedule">看看晚间怎么安排</a>
+        <span class="note">首周免费试托 · 不满意随时退</span>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="num">3,200+</div><div class="lab">累计在托学员</div></div>
+        <div class="stat"><div class="num">9 年</div><div class="lab">晚辅导教研</div></div>
+        <div class="stat"><div class="num">92%</div><div class="lab">期末提分率</div></div>
+        <div class="stat"><div class="num">1 : 6</div><div class="lab">辅导老师配比</div></div>
+      </div>
+    </div>
+    <div class="hero-media">
+      <div class="hero-frame" id="heroFrame">
+        <div class="night"></div>
+        <img class="on" src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=1000&q=80" alt="晚间自习" onerror="this.style.display='none'">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1000&q=80" alt="小组学习" onerror="this.style.display='none'">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1000&q=80" alt="课堂" onerror="this.style.display='none'">
+      </div>
+      <div class="float-card fc-1">
+        <div class="k" id="tickVal">98.2%</div>
+        <div class="v" id="tickLab"><span class="pulse"></span>本周作业按时完成率</div>
+      </div>
+      <div class="float-card fc-2">
+        <div class="k">21:00</div>
+        <div class="v">作业清零 · 家长签收离校</div>
+      </div>
+      <div class="hero-seal logo-mark"><svg viewBox="0 0 200 200"><use href="#shizhongLogo"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- 价值条 -->
+<div class="valuebar">
+  <div class="container grid">
+    <div class="vitem"><div class="dot"></div><div><h4>作业天天清零</h4><p>完成、检查、订正一步到位，不再拖到深夜</p></div></div>
+    <div class="vitem"><div class="dot"></div><div><h4>老师全程在场</h4><p>1:6 配比，随时答疑，不留疑问过夜</p></div></div>
+    <div class="vitem"><div class="dot"></div><div><h4>周测跟踪</h4><p>每周小测 + 每月学情报告，进步有数据</p></div></div>
+    <div class="vitem"><div class="dot"></div><div><h4>接送与晚餐</h4><p>校内接回、营养晚餐、21:00 家长签收</p></div></div>
+  </div>
+</div>
+
+<!-- 课程 -->
+<section id="courses">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Programs</p>
+      <h2>三个班型，覆盖小学到高三</h2>
+      <p>不是"看着写作业的托管"，而是有教研、有进度、有反馈的晚间学习系统。</p>
+    </div>
+    <div class="course-grid">
+      <article class="course reveal">
+        <div class="thumb">
+          <img src="https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=900&q=80" alt="" onerror="this.style.display='none'">
+          <div class="badge">1-6 年级</div>
+        </div>
+        <div class="body">
+          <div class="tags"><span class="tag hot">作业辅导</span><span class="tag">习惯养成</span></div>
+          <h3>小学晚间作业辅导</h3>
+          <p class="desc">作业清零 + 语数英同步巩固 + 阅读与练字。重点培养时间管理与自查习惯，一二年级重习惯，四五六年级重方法。</p>
+          <div class="price"><b>¥1,680</b><s>¥2,180</s><em>/ 月（含晚餐）</em></div>
+          <p style="font-size:12.5px;color:var(--muted)">周一至周五 17:30-21:00 · 首周免费试托</p>
+          <a class="go" href="#trial">了解班型 →</a>
+        </div>
+      </article>
+      <article class="course reveal">
+        <div class="thumb">
+          <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=900&q=80" alt="" onerror="this.style.display='none'">
+          <div class="badge">7-9 年级</div>
+        </div>
+        <div class="body">
+          <div class="tags"><span class="tag hot">同步提分</span><span class="tag">错题管理</span></div>
+          <h3>初中同步提分班</h3>
+          <p class="desc">作业辅导之外，按学科做专题突破。建立个人错题本，每周讲评，针对期中期末考纲逐项过关。</p>
+          <div class="price"><b>¥2,280</b><s>¥2,880</s><em>/ 月（含晚餐）</em></div>
+          <p style="font-size:12.5px;color:var(--muted)">周一至周五 18:00-21:30 · 每周学科周测</p>
+          <a class="go" href="#trial">了解班型 →</a>
+        </div>
+      </article>
+      <article class="course reveal">
+        <div class="thumb">
+          <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80" alt="" onerror="this.style.display='none'">
+          <div class="badge">10-12 年级</div>
+        </div>
+        <div class="body">
+          <div class="tags"><span class="tag hot">冲刺一对一</span><span class="tag">自主规划</span></div>
+          <h3>高中冲刺一对一定制</h3>
+          <p class="desc">学科诊断 + 个性化学习方案 + 资深教师一对一答疑。适合艺考文化课、临考冲刺与薄弱学科专项突破。</p>
+          <div class="price"><b>¥260</b><s>¥320</s><em>/ 课时</em></div>
+          <p style="font-size:12.5px;color:var(--muted)">每周 2-4 次 · 时间可预约 · 含学情月报</p>
+          <a class="go" href="#trial">预约学科诊断 →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 对比 -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Why Us</p>
+      <h2>同样是晚上三小时，差别在哪里</h2>
+    </div>
+    <div class="table-wrap reveal">
+      <table>
+        <thead>
+          <tr><th>对比项</th><th>时中教育</th><th>一般托管 / 家教</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>作业完成</td><td>完成 + 检查 + 订正，天天清零</td><td>只负责"写完"，对错不查</td></tr>
+          <tr><td>师资配置</td><td>专职教师 1:6，学科分工明确</td><td>看管人员为主，答疑不专业</td></tr>
+          <tr><td>教研内容</td><td>同步校内进度 + 周测专题突破</td><td>无教研，作业写完就散</td></tr>
+          <tr><td>学习反馈</td><td>每日反馈 + 每月学情报告</td><td>偶尔口头沟通，无记录</td></tr>
+          <tr><td>环境安全</td><td>独立校区 · 晚餐留样 · 家长签收</td><td>居民楼 / 私人场所，管理松散</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 师资 -->
+<section id="teachers" style="background:rgba(255,252,247,.55)">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Teachers</p>
+      <h2>晚上的时间，交给真正会教的老师</h2>
+      <p>全职教师团队，平均教龄 6 年以上，入职需通过 120 小时教学法与课堂管理训练。</p>
+    </div>
+    <div class="teacher-grid">
+      <div class="teacher reveal">
+        <div class="avatar"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=700&q=80" alt="" onerror="this.style.display='none'"></div>
+        <h3>周敏</h3>
+        <div class="role">教学总监 · 数学教研组长</div>
+        <p class="bio">原重点中学数学教师，12 年教龄，主持初中数学同步提分体系设计，带过 8 届毕业班。</p>
+        <div class="tags"><span class="tag">初中数学</span><span class="tag">中考冲刺</span><span class="tag">教研体系</span></div>
+      </div>
+      <div class="teacher reveal">
+        <div class="avatar"><img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?auto=format&fit=crop&w=700&q=80" alt="" onerror="this.style.display='none'"></div>
+        <h3>林岚</h3>
+        <div class="role">高级讲师 · 英语教研组长</div>
+        <p class="bio">外国语大学硕士，专注小学至初中英语同步与阅读习惯培养，擅长把语法讲成孩子听得懂的话。</p>
+        <div class="tags"><span class="tag">英语同步</span><span class="tag">阅读方法</span><span class="tag">词汇打卡</span></div>
+      </div>
+      <div class="teacher reveal">
+        <div class="avatar"><img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=700&q=80" alt="" onerror="this.style.display='none'"></div>
+        <h3>王振华</h3>
+        <div class="role">主讲教师 · 语文教研</div>
+        <p class="bio">7 年语文教学经验，主攻阅读理解与作文结构，独创"三段式审题法"，学员作文平均提分 6-9 分。</p>
+        <div class="tags"><span class="tag">阅读理解</span><span class="tag">作文结构</span><span class="tag">文言文</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 教学方法 -->
+<section id="method" class="method">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Method</p>
+      <h2>四步闭环，晚上不再是"耗时间"</h2>
+      <p>每一步都有明确目标和可查的记录，学了多少、哪里薄弱，一目了然。</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal"><div class="no">01</div><h4>作业清零</h4><p>限时完成、逐科检查、当面订正，当天问题当天解决。</p></div>
+      <div class="step reveal"><div class="no">02</div><h4>错题归档</h4><p>错题录入个人档案，标注错因，周末集中重做。</p></div>
+      <div class="step reveal"><div class="no">03</div><h4>专题突破</h4><p>按周测暴露的薄弱点做小专题训练，不撒网、不重复。</p></div>
+      <div class="step reveal"><div class="no">04</div><h4>周测复盘</h4><p>每周小测 + 学情报告，家长收到的是数据，不是"挺好的"。</p></div>
+    </div>
+
+    <!-- 晚间时刻表 -->
+    <div class="schedule reveal" id="schedule">
+      <div class="schedule-head">
+        <div>
+          <h3>晚间时刻表｜每晚都是有节奏的三小时</h3>
+          <p>不是让孩子坐着等家长来接，而是把每一段都用在刀刃上。</p>
+        </div>
+        <div class="live"><span class="pulse"></span>周一至周五 · 全年开班</div>
+      </div>
+      <div class="timeline">
+        <div class="tl"><div class="time">17:30</div><h4>入校 · 晚餐</h4><p>校内统一接回，洗手就餐，留样备查，营养师配餐。</p></div>
+        <div class="tl"><div class="time">18:15</div><h4>作业时段</h4><p>限时完成当日作业，老师巡视，随时答疑，杜绝磨蹭。</p></div>
+        <div class="tl hot"><div class="time">19:30</div><h4>检查订正</h4><p>逐科检查、当面讲错、当天订正，问题不过夜。</p></div>
+        <div class="tl hot"><div class="time">20:15</div><h4>专题 / 答疑</h4><p>按薄弱点做小专题训练，或一对一答疑补漏。</p></div>
+        <div class="tl"><div class="time">21:00</div><h4>复盘离校</h4><p>整理书包与错题本，家长签收，今日反馈同步到手机。</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 学段推荐 -->
+<section style="padding-top:0">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">By Grade</p>
+      <h2>按年级推荐</h2>
+      <p>不同学段的任务和节奏不同，晚间安排也应该不同。</p>
+    </div>
+    <div class="tabs reveal">
+      <button class="tab on" data-tab="p1">小学 1-3 年级</button>
+      <button class="tab" data-tab="p2">小学 4-6 年级</button>
+      <button class="tab" data-tab="p3">初中</button>
+      <button class="tab" data-tab="p4">高中</button>
+    </div>
+
+    <div class="panel on" id="p1">
+      <div class="panel-grid">
+        <div class="pcard"><div class="lv">STEP 1</div><h4>习惯建立</h4><p>坐姿、握笔、时间观念，先解决"怎么学"。</p><ul><li>作业分段限时</li><li>自查清单训练</li><li>书写规范</li></ul></div>
+        <div class="pcard"><div class="lv">STEP 2</div><h4>同步巩固</h4><p>跟着校内进度，当天知识当天消化。</p><ul><li>语数英同步练习</li><li>口算与听写</li><li>课文朗读打卡</li></ul></div>
+        <div class="pcard"><div class="lv">STEP 3</div><h4>兴趣拓展</h4><p>让学习不只有作业，还有阅读和表达。</p><ul><li>绘本阅读课</li><li>看图写话</li><li>每周小展示</li></ul></div>
+      </div>
+    </div>
+
+    <div class="panel" id="p2">
+      <div class="panel-grid">
+        <div class="pcard"><div class="lv">STEP 1</div><h4>方法升级</h4><p>科目变多，先解决时间分配与笔记方法。</p><ul><li>时间规划表</li><li>课堂笔记整理</li><li>错题本入门</li></ul></div>
+        <div class="pcard"><div class="lv">STEP 2</div><h4>学科突破</h4><p>数学应用题、英语语法、阅读理解逐项过关。</p><ul><li>应用题专项</li><li>语法专题</li><li>阅读理解方法</li></ul></div>
+        <div class="pcard"><div class="lv">STEP 3</div><h4>小初衔接</h4><p>五六年级提前适应初中节奏，不打无准备之仗。</p><ul><li>预习方法</li><li>自主复习</li><li>应试习惯</li></ul></div>
+      </div>
+    </div>
+
+    <div class="panel" id="p3">
+      <div class="panel-grid">
+        <div class="pcard"><div class="lv">STEP 1</div><h4>同步提分</h4><p>紧跟校内进度，作业之外补上课堂没吃透的部分。</p><ul><li>当日作业清零</li><li>周测讲评</li><li>错题归档</li></ul></div>
+        <div class="pcard"><div class="lv">STEP 2</div><h4>专题突破</h4><p>按月考、期中期末暴露的弱点做专题。</p><ul><li>数理化专题</li><li>英语语法与完形</li><li>语文阅读与作文</li></ul></div>
+        <div class="pcard"><div class="lv">STEP 3</div><h4>中考冲刺</h4><p>考纲逐项过关，模拟考后一对一复盘。</p><ul><li>考点清单</li><li>真题精练</li><li>志愿与节奏规划</li></ul></div>
+      </div>
+    </div>
+
+    <div class="panel" id="p4">
+      <div class="panel-grid">
+        <div class="pcard"><div class="lv">STEP 1</div><h4>学科诊断</h4><p>先做一份诊断卷，找准丢分点再排课。</p><ul><li>薄弱点定位</li><li>提分空间评估</li><li>学习方案定制</li></ul></div>
+        <div class="pcard"><div class="lv">STEP 2</div><h4>一对一答疑</h4><p>按需预约时段，讲透一个点胜过刷十道题。</p><ul><li>真题精讲</li><li>方法与技巧</li><li>自主学习规划</li></ul></div>
+        <div class="pcard"><div class="lv">STEP 3</div><h4>临考冲刺</h4><p>艺考文化课、考前 90 天冲刺，节奏可定制。</p><ul><li>考点浓缩</li><li>模考复盘</li><li>心态与作息调整</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 反馈 -->
+<section id="works" style="background:rgba(228,234,244,.35)">
+  <div class="container">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Voices</p>
+      <h2>家长与孩子怎么说</h2>
+    </div>
+    <div class="quotes reveal">
+      <div class="track" id="track">
+        <div class="slide"><div class="quote">
+          <div class="mark">"</div>
+          <p class="text">以前晚上写作业要催到十点，家里鸡飞狗跳。现在 21:00 接回来，作业已经改完订正完，家里气氛都好了。这次期中数学从 71 提到 89。</p>
+          <div class="who"><div class="ava">李</div><div><b>李妈妈</b><span>初二学员家长 · 同步提分班</span></div></div>
+        </div></div>
+        <div class="slide"><div class="quote">
+          <div class="mark">"</div>
+          <p class="text">最喜欢每月的学情报告，哪一章薄弱、错在哪类题上写得清清楚楚。老师不是说"挺好的"，而是拿着数据跟我们讲下一步怎么做。</p>
+          <div class="who"><div class="ava">张</div><div><b>张先生</b><span>五年级学员家长 · 晚间作业辅导</span></div></div>
+        </div></div>
+        <div class="slide"><div class="quote">
+          <div class="mark">"</div>
+          <p class="text">我是艺考生，文化课落下很多。王老师按我的情况把内容浓缩成考点清单，三个月从 320 分到 428 分，真的救了我的志愿。</p>
+          <div class="who"><div class="ava">陈</div><div><b>陈同学</b><span>高三 · 一对一定制</span></div></div>
+        </div></div>
+      </div>
+    </div>
+    <div class="slider-ctl reveal">
+      <button class="arrow" id="prevQ" aria-label="上一条">←</button>
+      <button class="arrow" id="nextQ" aria-label="下一条">→</button>
+      <div class="dots" id="qDots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="sec-head reveal" style="text-align:center;padding-left:0">
+      <p class="eyebrow">FAQ</p>
+      <h2>常见问题</h2>
+    </div>
+    <div class="faq">
+      <div class="q"><button><span>晚辅导和普通托管有什么区别？</span><span class="sign">+</span></button>
+        <div class="a"><p>托管解决"有人看着写作业"，我们解决"作业写好、知识补上"。除了完成作业，还有逐科检查订正、错题归档、每周周测和每月学情报告，是有教研支撑的晚间学习系统。</p></div></div>
+      <div class="q"><button><span>一个老师带几个孩子？答疑能顾得过来吗？</span><span class="sign">+</span></button>
+        <div class="a"><p>教师配比 1:6，且按学科分工。作业时段老师全程巡视，遇到不会的随时举手，也能在专题时段做一对一讲解。</p></div></div>
+      <div class="q"><button><span>晚餐和接送怎么安排？安全吗？</span><span class="sign">+</span></button>
+        <div class="a"><p>我们与周边小学、初中有固定接校路线，老师持证带队；晚餐由合作营养餐配送，每日留样 48 小时备查；21:00 需家长本人或授权人签字离校，全程监控覆盖。</p></div></div>
+      <div class="q"><button><span>孩子作业很少，会不会浪费时间？</span><span class="sign">+</span></button>
+        <div class="a"><p>作业完成后进入专题时段：按个人薄弱点做针对性训练、预习新课或拓展阅读。每周计划由老师按学情安排，不会空坐。</p></div></div>
+      <div class="q"><button><span>可以先试托吗？不合适能退费吗？</span><span class="sign">+</span></button>
+        <div class="a"><p>首周免费试托，家长可随时旁观。正式入托后按剩余课时退费，不收手续费；每月也支持按月缴费，不做长期捆绑。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="trial">
+  <div class="cta-seal logo-mark"><svg viewBox="0 0 200 200"><use href="#shizhongLogo"/></svg></div>
+  <div class="container inner">
+    <div>
+      <h2>先来做一次免费学习测评，<br>再决定要不要开始。</h2>
+      <p>测评包含：学科基础诊断 + 学习习惯访谈 + 一份专属晚间学习方案。每周开放 30 组名额。</p>
+      <div class="points">
+        <span>首周免费试托</span><span>按月缴费不捆绑</span><span>每日反馈到手机</span><span>不满意随时退</span>
+      </div>
+    </div>
+    <form onsubmit="event.preventDefault();alert('已收到，课程顾问会在 24 小时内与您联系。');">
+      <label>家长称呼</label>
+      <input type="text" placeholder="如：王女士" required>
+      <label>联系电话</label>
+      <input type="tel" placeholder="11 位手机号" required>
+      <label>孩子年级</label>
+      <select>
+        <option>小学 1-3 年级</option>
+        <option>小学 4-6 年级</option>
+        <option>初中</option>
+        <option>高中</option>
+      </select>
+      <button class="btn btn-light" style="width:100%" type="submit">免费预约学习测评</button>
+      <p class="fine">信息仅用于课程沟通，绝不外泄</p>
+    </form>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="container">
+    <div class="f-grid">
+      <div class="f-brand">
+        <div class="logo-mark">
+          <svg viewBox="0 0 200 200"><use href="#shizhongLogo"/></svg>
+          <img src="logo.png" alt="时中教育校徽" onerror="this.style.display='none'">
+        </div>
+        <div>
+          <h5>时中教育 SHIZHONG EDUCATION</h5>
+          <p>"君子而时中"——把握时机，恰到好处。<br>专注 K12 晚间辅导 9 年，让晚上的时间真正属于学习。</p>
+        </div>
+      </div>
+      <div>
+        <h5>课程</h5>
+        <a href="#courses">小学晚间作业辅导</a><a href="#courses">初中同步提分班</a><a href="#courses">高中一对一定制</a><a href="#courses">寒暑假衔接营</a>
+      </div>
+      <div>
+        <h5>了解我们</h5>
+        <a href="#teachers">师资团队</a><a href="#method">教学方法</a><a href="#schedule">晚间时刻表</a><a href="#faq">常见问题</a>
+      </div>
+      <div>
+        <h5>联系</h5>
+        <p>咨询热线：400-800-1926<br>接待时间：周一至周日 14:00-21:30<br>校区地址：文化路 128 号时中教育大厦 3 层</p>
+      </div>
+    </div>
+    <div class="f-bottom">
+      <span>© 2024 时中教育. 保留所有权利.</span>
+      <span>教民 133010070000000 号 · 沪ICP备 2024000000 号</span>
+    </div>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="stickyBar">
+  <a class="btn btn-ghost" href="#courses">看班型</a>
+  <a class="btn btn-primary" href="#trial">免费测评</a>
+</div>
+
+<script>
+(function(){
+  /* 标题轮播 */
+  var phrases=["变成成绩的转折点。","让作业不再拖到十点半。","有人答疑，有人管进度。","把错题，变成下次的得分点。","家长省心，孩子有收获。"];
+  var rot=document.getElementById("rotLine"), pi=0;
+  setInterval(function(){
+    rot.style.opacity=0;
+    setTimeout(function(){ pi=(pi+1)%phrases.length; rot.textContent=phrases[pi]; rot.style.opacity=1; },300);
+  },3400);
+
+  /* Hero 图片轮播 */
+  var imgs=document.querySelectorAll("#heroFrame img"), ii=0;
+  setInterval(function(){
+    if(!imgs.length) return;
+    imgs[ii].classList.remove("on"); ii=(ii+1)%imgs.length; imgs[ii].classList.add("on");
+  },4200);
+
+  /* 浮动数据 */
+  var ticks=[["98.2%","本周作业按时完成率"],["+23.5","本月学员平均提分"],["1,860","本周答疑与订正次数"],["21:00","作业清零 · 家长签收"]];
+  var tv=document.getElementById("tickVal"), tl=document.getElementById("tickLab"), ti=0;
+  setInterval(function(){
+    ti=(ti+1)%ticks.length; tv.style.opacity=0; tl.style.opacity=0;
+    setTimeout(function(){
+      tv.textContent=ticks[ti][0];
+      tl.innerHTML='<span class="pulse"></span>'+ticks[ti][1];
+      tv.style.opacity=1; tl.style.opacity=1;
+    },280);
+  },3800);
+
+  /* Tabs */
+  document.querySelectorAll(".tab").forEach(function(b){
+    b.addEventListener("click",function(){
+      document.querySelectorAll(".tab").forEach(function(x){x.classList.remove("on");});
+      document.querySelectorAll(".panel").forEach(function(x){x.classList.remove("on");});
+      b.classList.add("on");
+      document.getElementById(b.dataset.tab).classList.add("on");
+    });
+  });
+
+  /* 反馈轮播 */
+  var track=document.getElementById("track"), qi=0, total=3;
+  var dots=document.querySelectorAll("#qDots .dot");
+  function goQ(n){
+    qi=(n+total)%total;
+    track.style.transform="translateX(-"+(qi*100)+"%)";
+    dots.forEach(function(d,idx){ d.classList.toggle("on", idx===qi); });
+  }
+  document.getElementById("nextQ").addEventListener("click",function(){ goQ(qi+1); });
+  document.getElementById("prevQ").addEventListener("click",function(){ goQ(qi-1); });
+  dots.forEach(function(d,idx){ d.addEventListener("click",function(){ goQ(idx); }); });
+  setInterval(function(){ goQ(qi+1); },7000);
+
+  /* FAQ */
+  document.querySelectorAll(".q button").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      var q=btn.parentElement, a=q.querySelector(".a"), open=q.classList.contains("open");
+      document.querySelectorAll(".q").forEach(function(x){ x.classList.remove("open"); x.querySelector(".a").style.maxHeight=null; });
+      if(!open){ q.classList.add("open"); a.style.maxHeight=a.scrollHeight+"px"; }
+    });
+  });
+
+  /* 滚动浮现 */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+  },{threshold:.12});
+  document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+
+  /* 吸底条 */
+  var bar=document.getElementById("stickyBar");
+  window.addEventListener("scroll",function(){
+    bar.classList.toggle("show", window.scrollY>620);
+  },{passive:true});
+})();
+</script>
+</body>
+</html>
